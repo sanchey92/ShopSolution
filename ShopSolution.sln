@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopSolution.API", "ShopSolution.API\ShopSolution.API.csproj", "{2870A072-ACE2-4EC4-8A6A-F180AC5BF09E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopSolution.Core", "ShopSolution.Core\ShopSolution.Core.csproj", "{6C800F54-9FD7-4F79-8989-2B3528160622}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopSolution.Infrastructure", "ShopSolution.Infrastructure\ShopSolution.Infrastructure.csproj", "{C6F38983-DB70-4F88-BBE2-CEA470DC0748}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +16,13 @@ Global
 		{2870A072-ACE2-4EC4-8A6A-F180AC5BF09E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2870A072-ACE2-4EC4-8A6A-F180AC5BF09E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2870A072-ACE2-4EC4-8A6A-F180AC5BF09E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C800F54-9FD7-4F79-8989-2B3528160622}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C800F54-9FD7-4F79-8989-2B3528160622}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C800F54-9FD7-4F79-8989-2B3528160622}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C800F54-9FD7-4F79-8989-2B3528160622}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6F38983-DB70-4F88-BBE2-CEA470DC0748}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6F38983-DB70-4F88-BBE2-CEA470DC0748}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6F38983-DB70-4F88-BBE2-CEA470DC0748}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6F38983-DB70-4F88-BBE2-CEA470DC0748}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -1,4 +1,4 @@
-namespace ShopSolution.API.Entities
+namespace ShopSolution.Core.Entities
 {
     public class Product
     {

@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using ShopSolution.API.Entities;
+using ShopSolution.Core.Entities;
 
-namespace ShopSolution.API.Data
+namespace ShopSolution.Infrastructure.Data
 {
     public class StoreContext : DbContext
     {

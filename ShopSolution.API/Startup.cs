@@ -8,7 +8,6 @@ using Microsoft.OpenApi.Models;
 using Npgsql;
 using ShopSolution.Infrastructure.Data;
 
-
 namespace ShopSolution.API
 {
     public class Startup
