@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Npgsql;
+using ShopSolution.Core.Interfaces;
 using ShopSolution.Infrastructure.Data;
 
 namespace ShopSolution.API
@@ -32,6 +33,8 @@ namespace ShopSolution.API
                 options.UseNpgsql(builder.ConnectionString));
             
             services.AddControllers();
+            services.AddScoped<IProductRepository, ProductRepository>();
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "ShopSolution.API", Version = "v1"});
