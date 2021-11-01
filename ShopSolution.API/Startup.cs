@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Npgsql;
+using ShopSolution.API.Helpers;
 using ShopSolution.Core.Interfaces;
 using ShopSolution.Infrastructure.Data;
 
@@ -36,6 +37,8 @@ namespace ShopSolution.API
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             
+            services.AddAutoMapper(typeof(MappingProfiles));
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "ShopSolution.API", Version = "v1"});
@@ -55,6 +58,7 @@ namespace ShopSolution.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseStaticFiles();
 
             app.UseAuthorization();
 
