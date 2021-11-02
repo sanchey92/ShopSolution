@@ -1,14 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
-using Npgsql;
+using ShopSolution.API.Extensions;
 using ShopSolution.API.Helpers;
-using ShopSolution.Core.Interfaces;
-using ShopSolution.Infrastructure.Data;
+using ShopSolution.API.Middleware;
 
 namespace ShopSolution.API
 {
@@ -23,26 +20,11 @@ namespace ShopSolution.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var builder = new NpgsqlConnectionStringBuilder
-            {
-                ConnectionString = Configuration.GetConnectionString("DefaultConnection"),
-                Username = Configuration["User ID"],
-                Password = Configuration["Password"]
-            };
-
-            services.AddDbContext<StoreContext>(options => 
-                options.UseNpgsql(builder.ConnectionString));
-            
             services.AddControllers();
-            services.AddScoped<IProductRepository, ProductRepository>();
-            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-            
+            services.AddDbContexts(Configuration);
             services.AddAutoMapper(typeof(MappingProfiles));
-            
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "ShopSolution.API", Version = "v1"});
-            });
+            services.AddApplicationServices();
+            services.AddSwaggerDocumentation();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -50,10 +32,10 @@ namespace ShopSolution.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => 
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "ShopSolution.API v1"));
             }
+
+            app.UseMiddleware<ExceptionMiddleware>();
+            app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
             app.UseHttpsRedirection();
 
@@ -61,6 +43,7 @@ namespace ShopSolution.API
             app.UseStaticFiles();
 
             app.UseAuthorization();
+            app.UseSwaggerDocumentation();
 
             app.UseEndpoints(endpoints => endpoints.MapControllers());
         }

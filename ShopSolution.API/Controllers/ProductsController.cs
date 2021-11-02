@@ -3,15 +3,14 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using ShopSolution.API.Dtos;
+using ShopSolution.API.Errors;
 using ShopSolution.Core.Entities;
 using ShopSolution.Core.Interfaces;
 using ShopSolution.Core.Specifications;
 
 namespace ShopSolution.API.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ProductsController : ControllerBase
+    public class ProductsController : BaseApiController
     {
         private readonly IGenericRepository<Product> _productRepository;
         private readonly IGenericRepository<ProductBrand> _productBrandRepository;
@@ -44,6 +43,7 @@ namespace ShopSolution.API.Controllers
         {
             var spec = new ProductsWithTypesAndBrandsSpecification(id);
             var product = await _productRepository.GetEntityWithSpec(spec);
+            if (product == null) return NotFound(new ApiResponse(404));
             return _mapper.Map<Product, ProductToReturnDto>(product);
         } 
 
