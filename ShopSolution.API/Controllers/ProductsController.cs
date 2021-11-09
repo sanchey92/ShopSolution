@@ -4,6 +4,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using ShopSolution.API.Dtos;
 using ShopSolution.API.Errors;
+using ShopSolution.API.Helpers;
 using ShopSolution.Core.Entities;
 using ShopSolution.Core.Interfaces;
 using ShopSolution.Core.Specifications;
@@ -30,12 +31,17 @@ namespace ShopSolution.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts()
+        public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProducts(
+            [FromQuery]ProductSpecParams productParams)
         {
-            var spec = new ProductsWithTypesAndBrandsSpecification();
+            var spec = new ProductsWithTypesAndBrandsSpecification(productParams);
+            var countSpec = new ProductWithFiltersForCountSpecification(productParams);
+            var totalItems = await _productRepository.CountAsync(spec);
             var products = await _productRepository.ListAsync(spec);
-            return Ok(_mapper.Map<IReadOnlyList<Product>,
-                IReadOnlyList<ProductToReturnDto>>(products));
+            var data = _mapper.Map<IReadOnlyList<Product>,
+                IReadOnlyList<ProductToReturnDto>>(products);
+            return Ok(new Pagination<ProductToReturnDto>(productParams.PageIndex, 
+                productParams.PageSize, totalItems, data));
         }
 
         [HttpGet("{id:int}")] 
@@ -44,7 +50,7 @@ namespace ShopSolution.API.Controllers
             var spec = new ProductsWithTypesAndBrandsSpecification(id);
             var product = await _productRepository.GetEntityWithSpec(spec);
             if (product == null) return NotFound(new ApiResponse(404));
-            return _mapper.Map<Product, ProductToReturnDto>(product);
+            return _mapper.Map<Product, ProductToReturnDto>(product); 
         } 
 
         [HttpGet("brands")]

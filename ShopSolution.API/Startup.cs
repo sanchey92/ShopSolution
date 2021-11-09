@@ -36,15 +36,11 @@ namespace ShopSolution.API
 
             app.UseMiddleware<ExceptionMiddleware>();
             app.UseStatusCodePagesWithReExecute("/errors/{0}");
-
             app.UseHttpsRedirection();
-
             app.UseRouting();
             app.UseStaticFiles();
-
             app.UseAuthorization();
             app.UseSwaggerDocumentation();
-
             app.UseEndpoints(endpoints => endpoints.MapControllers());
         }
     }
