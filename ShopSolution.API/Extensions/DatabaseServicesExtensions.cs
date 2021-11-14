@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
 using ShopSolution.Infrastructure.Data;
+using StackExchange.Redis;
 
 namespace ShopSolution.API.Extensions
 {
@@ -20,6 +21,13 @@ namespace ShopSolution.API.Extensions
 
             services.AddDbContext<StoreContext>(options =>
                 options.UseNpgsql(builder.ConnectionString));
+
+            services.AddSingleton<IConnectionMultiplexer>(c =>
+            {
+                var config = ConfigurationOptions.Parse(configuration
+                    .GetConnectionString("Redis"), true);
+                return ConnectionMultiplexer.Connect(config);
+            });
 
             return services;
         }
