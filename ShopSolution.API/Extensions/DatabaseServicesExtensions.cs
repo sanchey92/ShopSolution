@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
 using ShopSolution.Infrastructure.Data;
+using ShopSolution.Infrastructure.Identity;
 using StackExchange.Redis;
 
 namespace ShopSolution.API.Extensions
@@ -12,15 +13,14 @@ namespace ShopSolution.API.Extensions
         public static IServiceCollection AddDbContexts(this IServiceCollection services,
             IConfiguration configuration)
         {
-            var builder = new NpgsqlConnectionStringBuilder
-            {
-                ConnectionString = configuration.GetConnectionString("DefaultConnection"),
-                Username = configuration["User ID"],
-                Password = configuration["Password"]
-            };
+            var defaultBuilder = CreateBuilder(configuration, "DefaultConnection");
+            var identityBuilder = CreateBuilder(configuration, "IdentityConnection");
 
             services.AddDbContext<StoreContext>(options =>
-                options.UseNpgsql(builder.ConnectionString));
+                options.UseNpgsql(defaultBuilder.ConnectionString));
+
+            services.AddDbContext<AppIdentityDbContext>(options =>
+                options.UseNpgsql(identityBuilder.ConnectionString));
 
             services.AddSingleton<IConnectionMultiplexer>(c =>
             {
@@ -30,6 +30,19 @@ namespace ShopSolution.API.Extensions
             });
 
             return services;
+        }
+
+        private static NpgsqlConnectionStringBuilder CreateBuilder(
+            IConfiguration configuration,string connectionString)
+        {
+            var builder = new NpgsqlConnectionStringBuilder
+            {
+                ConnectionString = configuration.GetConnectionString(connectionString),
+                Username = configuration["User ID"],
+                Password = configuration["Password"]
+            };
+
+            return builder;
         }
     }
 }

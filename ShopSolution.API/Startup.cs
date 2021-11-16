@@ -24,6 +24,7 @@ namespace ShopSolution.API
             services.AddDbContexts(Configuration);
             services.AddAutoMapper(typeof(MappingProfiles));
             services.AddApplicationServices();
+            services.AddIdentityServices();
             services.AddSwaggerDocumentation();
         }
 
