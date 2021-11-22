@@ -24,7 +24,7 @@ namespace ShopSolution.API
             services.AddDbContexts(Configuration);
             services.AddAutoMapper(typeof(MappingProfiles));
             services.AddApplicationServices();
-            services.AddIdentityServices();
+            services.AddIdentityServices(Configuration);
             services.AddSwaggerDocumentation();
         }
 
@@ -40,6 +40,7 @@ namespace ShopSolution.API
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseStaticFiles();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseSwaggerDocumentation();
             app.UseEndpoints(endpoints => endpoints.MapControllers());

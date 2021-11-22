@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ShopSolution.API.Errors;
 using ShopSolution.Core.Interfaces;
 using ShopSolution.Infrastructure.Data;
+using ShopSolution.Infrastructure.Services;
 
 namespace ShopSolution.API.Extensions
 {
@@ -11,6 +12,7 @@ namespace ShopSolution.API.Extensions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
+            services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IBasketRepository, BasketRepository>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
