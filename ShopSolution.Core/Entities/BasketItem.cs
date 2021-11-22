@@ -1,6 +1,6 @@
 namespace ShopSolution.Core.Entities
 {
-    public class BasketItem : BaseEntity
+    public class BasketItem
     {
         public string ProductName { get; set; }
         public decimal Price { get; set; }
