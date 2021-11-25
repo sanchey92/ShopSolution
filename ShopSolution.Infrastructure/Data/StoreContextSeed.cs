@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using ShopSolution.Core.Entities;
+using ShopSolution.Core.Entities.OrderAggregate;
 
 namespace ShopSolution.Infrastructure.Data
 {
@@ -50,6 +51,19 @@ namespace ShopSolution.Infrastructure.Data
 
                     foreach (var item in products)
                         context.Products.Add(item);
+
+                    await context.SaveChangesAsync();
+                }
+                
+                if (!context.DeliveryMethods.Any())
+                {
+                    var dmData =
+                        File.ReadAllText("../ShopSolution.Infrastructure/Data/SeedData/delivery.json");
+
+                    var methods = JsonSerializer.Deserialize<List<DeliveryMethod>>(dmData);
+
+                    foreach (var item in methods)
+                        context.DeliveryMethods.Add(item);
 
                     await context.SaveChangesAsync();
                 }
