@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -22,6 +23,7 @@ namespace ShopSolution.API.Controllers
             _mapper = mapper;
         }
 
+        [Cached(600)]
         [HttpGet]
         public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProducts(
             [FromQuery]ProductSpecParams productParams)
@@ -36,6 +38,7 @@ namespace ShopSolution.API.Controllers
                 productParams.PageSize, totalItems, data));
         }
 
+        [Cached(600)]
         [HttpGet("{id:int}")] 
         public async Task<ActionResult<ProductToReturnDto>> GetProduct(int id)
         {
@@ -45,12 +48,14 @@ namespace ShopSolution.API.Controllers
             return _mapper.Map<Product, ProductToReturnDto>(product); 
         } 
 
+        [Cached(600)]
         [HttpGet("brands")]
         public async Task<ActionResult<List<ProductBrand>>> GetProductBrands()
         {
             return Ok(await _unitOfWork.Repository<ProductBrand>().ListAllAsync());
         }
 
+        [Cached(600)]
         [HttpGet("types")]
         public async Task<ActionResult<List<ProductType>>> GetProductTypes()
         {
