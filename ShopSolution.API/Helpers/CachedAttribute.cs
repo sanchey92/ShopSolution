@@ -49,7 +49,7 @@ namespace ShopSolution.API.Helpers
             }
         }
 
-        private string GenerateCacheKeyFromRequest(HttpRequest request)
+        private static string GenerateCacheKeyFromRequest(HttpRequest request)
         {
             var keyBuilder = new StringBuilder();
             keyBuilder.Append($"{request.Path}");
